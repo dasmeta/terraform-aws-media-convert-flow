@@ -1,5 +1,5 @@
 resource "aws_media_convert_queue" "queue" {
-  name = var.queue_name
+  name         = var.queue_name
   pricing_plan = var.queue_pricing_plan
 
   status = var.status
@@ -7,7 +7,7 @@ resource "aws_media_convert_queue" "queue" {
 }
 
 module "iam_role" {
-  source = "dasmeta/iam/aws//modules/role"
+  source  = "dasmeta/iam/aws//modules/role"
   version = "1.2.1"
 
   name        = "MediaConverter_default_role"

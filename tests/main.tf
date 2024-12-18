@@ -1,8 +1,8 @@
 module "mediaconvert_queue" {
-    source = "../."
+  source = "../."
 
-    queue_name = "test-queue"
- 
+  queue_name = "test-queue"
+
 }
 
 provider "aws" {
