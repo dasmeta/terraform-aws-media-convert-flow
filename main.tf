@@ -31,3 +31,57 @@ module "iam_role" {
   ]
 
 }
+
+module "eventbridge" {
+  source  = "terraform-aws-modules/eventbridge/aws"
+  version = "3.13.0"
+
+  create_bus = false
+  bus_name   = "default"
+
+  rules = {
+    for rule_key, rule_value in var.rules : rule_key => {
+      name           = rule_value.name
+      description    = rule_value.description
+      event_pattern  = rule_value.event_pattern
+      event_bus_name = rule_value.event_bus_name
+      pattern        = rule_value.pattern
+      is_enabled     = rule_value.is_enabled
+
+    }
+  }
+  targets = var.targets
+}
+
+module "sqs" {
+  source          = "dasmeta/modules/aws//modules/sqs"
+  version         = "2.18.2"
+  create_iam_user = false
+
+  name = var.queue_name
+}
+
+
+data "aws_iam_policy_document" "eventbridge_to_sqs" {
+  statement {
+    actions   = ["sqs:SendMessage"]
+    resources = [module.sqs.queue_arn]
+
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:SourceArn"
+      values   = [module.eventbridge.eventbridge_bus_arn]
+    }
+  }
+}
+
+resource "aws_sqs_queue_policy" "eventbridge_policy" {
+  queue_url = "https://sqs.${data.aws_region.current.name}.amazonaws.com/${data.aws_caller_identity.current.account_id}/${module.sqs.queue_name}"
+
+  policy = data.aws_iam_policy_document.eventbridge_to_sqs.json
+}
