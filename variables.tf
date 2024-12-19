@@ -1,6 +1,7 @@
 variable "queue_name" {
   description = "queue name"
   type        = string
+  default     = "simple-queue-name"
 }
 
 variable "queue_pricing_plan" {
@@ -32,12 +33,6 @@ variable "rules" {
   #       input = optional(map(any), null)
   #     }))
   #   }))
-}
-
-variable "sqs_queue_name" {
-  description = "sqs query name"
-  type        = string
-  default     = "simple-queue-name"
 }
 
 variable "targets" {

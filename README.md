@@ -35,10 +35,9 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_queue_name"></a> [queue\_name](#input\_queue\_name) | queue name | `string` | n/a | yes |
+| <a name="input_queue_name"></a> [queue\_name](#input\_queue\_name) | queue name | `string` | `"simple-queue-name"` | no |
 | <a name="input_queue_pricing_plan"></a> [queue\_pricing\_plan](#input\_queue\_pricing\_plan) | pricing method of the plan. Valid values are ON\_DEMAND or RESERVED | `string` | `"ON_DEMAND"` | no |
 | <a name="input_rules"></a> [rules](#input\_rules) | List of EventBridge rules with their configuration | `map(any)` | n/a | yes |
-| <a name="input_sqs_queue_name"></a> [sqs\_queue\_name](#input\_sqs\_queue\_name) | sqs query name | `string` | `"simple-queue-name"` | no |
 | <a name="input_status"></a> [status](#input\_status) | A status of the queue. Valid values are ACTIVE or RESERVED. | `string` | `"ACTIVE"` | no |
 | <a name="input_targets"></a> [targets](#input\_targets) | n/a | `map(any)` | n/a | yes |
 
