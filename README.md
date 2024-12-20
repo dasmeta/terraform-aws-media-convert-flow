@@ -1,4 +1,34 @@
 # terraform-aws-media-converter
+This module allows creating a media converter queue alongside with related sqs queue and EventBrdige bus to connect media converter events to sqs queue.
+
+
+# Simple example
+```hcl
+module "mediaconverter" {
+  source = "dasmeta/mediaconverter_flow/aws"
+
+  queue_name = "test-queue"
+
+  rules = {
+    orders = {
+      name           = "test-mediaconvert"
+      description    = "Capture mediaconvert job events"
+      event_bus_name = "default"
+      event_pattern  = jsonencode({ "source" : ["aws.mediaconvert"] })
+      is_enabled = true
+    }
+  }
+  targets = {
+    orders = [
+      {
+        arn  = "arn:aws:sqs:eu-central-1:123456789012:test-queue"
+        name = "sqs-target-test"
+      }
+    ]
+  }
+}
+
+```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -35,11 +65,14 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_bus_name"></a> [bus\_name](#input\_bus\_name) | name of the eventbridge bus | `string` | `"default"` | no |
+| <a name="input_create_bus"></a> [create\_bus](#input\_create\_bus) | boolean flag to create a new flag | `bool` | `false` | no |
+| <a name="input_iam_role_name_suffix"></a> [iam\_role\_name\_suffix](#input\_iam\_role\_name\_suffix) | string to be attached to MediaConverter to create iam role name. | `string` | `""` | no |
 | <a name="input_queue_name"></a> [queue\_name](#input\_queue\_name) | queue name | `string` | `"simple-queue-name"` | no |
 | <a name="input_queue_pricing_plan"></a> [queue\_pricing\_plan](#input\_queue\_pricing\_plan) | pricing method of the plan. Valid values are ON\_DEMAND or RESERVED | `string` | `"ON_DEMAND"` | no |
-| <a name="input_rules"></a> [rules](#input\_rules) | List of EventBridge rules with their configuration | `map(any)` | n/a | yes |
+| <a name="input_rules"></a> [rules](#input\_rules) | Map of EventBridge rules with their configuration | `map(any)` | n/a | yes |
 | <a name="input_status"></a> [status](#input\_status) | A status of the queue. Valid values are ACTIVE or RESERVED. | `string` | `"ACTIVE"` | no |
-| <a name="input_targets"></a> [targets](#input\_targets) | n/a | `map(any)` | n/a | yes |
+| <a name="input_targets"></a> [targets](#input\_targets) | Map of targets to be linked to the rule. Currently only sqs targets are supported | `list(map(string))` | `[]` | no |
 
 ## Outputs
 

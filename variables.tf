@@ -17,25 +17,31 @@ variable "status" {
 }
 
 variable "rules" {
-  description = "List of EventBridge rules with their configuration"
+  description = "Map of EventBridge rules with their configuration"
   type        = map(any)
 
-  #     {
-  #     name           = string
-  #     description    = optional(string, "EventBridge rule")
-  #     event_bus_name = optional(string, "default")
-  #     pattern        = string
-  #     is_enabled     = optional(bool, true)
-  #     # sqs_queue_name = string
-  #     targets = list(object({
-  #       arn   = string
-  #       id    = string
-  #       input = optional(map(any), null)
-  #     }))
-  #   }))
 }
 
 variable "targets" {
-  type = map(any)
+  type        = list(map(string))
+  description = "Map of targets to be linked to the rule. Currently only sqs targets are supported"
+  default     = []
+}
 
+variable "create_bus" {
+  type        = bool
+  description = "boolean flag to create a new flag"
+  default     = false
+}
+
+variable "bus_name" {
+  type        = string
+  description = "name of the eventbridge bus"
+  default     = "default"
+}
+
+variable "iam_role_name_suffix" {
+  type        = string
+  description = "string to be attached to MediaConverter to create iam role name. "
+  default     = ""
 }

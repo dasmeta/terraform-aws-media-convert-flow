@@ -10,8 +10,7 @@ module "iam_role" {
   source  = "dasmeta/iam/aws//modules/role"
   version = "1.2.1"
 
-  name        = "MediaConverter_default_role"
-  description = "Role to be attached to MediaConverter jobs"
+  name = "mediaconverter-${var.iam_role_name_suffix}"
 
   policy = [
     {
@@ -36,8 +35,9 @@ module "eventbridge" {
   source  = "terraform-aws-modules/eventbridge/aws"
   version = "3.13.0"
 
-  create_bus = false
-  bus_name   = "default"
+  create_bus  = var.create_bus
+  bus_name    = var.bus_name
+  create_role = false
 
   rules = {
     for rule_key, rule_value in var.rules : rule_key => {
@@ -45,12 +45,11 @@ module "eventbridge" {
       description    = rule_value.description
       event_pattern  = rule_value.event_pattern
       event_bus_name = rule_value.event_bus_name
-      pattern        = rule_value.pattern
       is_enabled     = rule_value.is_enabled
 
     }
   }
-  targets = var.targets
+  targets = local.targets
 }
 
 module "sqs" {
@@ -84,4 +83,10 @@ resource "aws_sqs_queue_policy" "eventbridge_policy" {
   queue_url = "https://sqs.${data.aws_region.current.name}.amazonaws.com/${data.aws_caller_identity.current.account_id}/${module.sqs.queue_name}"
 
   policy = data.aws_iam_policy_document.eventbridge_to_sqs.json
+}
+
+locals {
+  targets = {
+    orders = concat(var.targets, [{ arn = module.sqs.queue_arn, name = "mediaconverter-sqs-target" }])
+  }
 }
