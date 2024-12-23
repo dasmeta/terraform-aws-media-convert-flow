@@ -17,8 +17,6 @@ jobs:
       matrix:
         path:
           - /
-          - record-alias-alb/
-          - record-alias-cdn/
 
     steps:
     - uses: dasmeta/reusable-actions-workflows/checkov@4.2.0
