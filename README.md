@@ -9,7 +9,6 @@ module "mediaconverter" {
 
   queue_name = "test-queue"
 
-  rules_targets =
 }
 
 ```
@@ -25,7 +24,7 @@ module "mediaconverter" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.81.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
 
 ## Modules
 
@@ -51,7 +50,6 @@ module "mediaconverter" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_bus_name"></a> [bus\_name](#input\_bus\_name) | name of the eventbridge bus | `string` | `"default"` | no |
 | <a name="input_create_bus"></a> [create\_bus](#input\_create\_bus) | boolean flag to create a new flag | `bool` | `false` | no |
-| <a name="input_iam_role_name_suffix"></a> [iam\_role\_name\_suffix](#input\_iam\_role\_name\_suffix) | string to be attached to MediaConverter to create iam role name. | `string` | `""` | no |
 | <a name="input_queue_name"></a> [queue\_name](#input\_queue\_name) | queue name | `string` | `"simple-queue-name"` | no |
 | <a name="input_queue_pricing_plan"></a> [queue\_pricing\_plan](#input\_queue\_pricing\_plan) | pricing method of the plan. Valid values are ON\_DEMAND or RESERVED | `string` | `"ON_DEMAND"` | no |
 | <a name="input_rules_targets"></a> [rules\_targets](#input\_rules\_targets) | event patterns for eventbridge rules | `list(map(any))` | `[]` | no |

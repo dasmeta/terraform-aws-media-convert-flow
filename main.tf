@@ -10,7 +10,7 @@ module "iam_role" {
   source  = "dasmeta/iam/aws//modules/role"
   version = "1.2.1"
 
-  name = "mediaconverter-${var.iam_role_name_suffix}"
+  name = "mediaconverter-${var.queue_name}"
 
   policy = [
     {
