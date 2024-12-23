@@ -16,11 +16,11 @@ variable "status" {
   default     = "ACTIVE"
 }
 
-variable "rules" {
-  description = "Map of EventBridge rules with their configuration"
-  type        = map(any)
+# variable "rules" {
+#   description = "Map of EventBridge rules with their configuration"
+#   type        = map(any)
 
-}
+# }
 
 variable "targets" {
   type        = list(map(string))
@@ -44,4 +44,22 @@ variable "iam_role_name_suffix" {
   type        = string
   description = "string to be attached to MediaConverter to create iam role name. "
   default     = ""
+}
+
+variable "s3_iam_actions" {
+  type        = list(string)
+  description = "list of actions to be attached to iam role for mediaconverter"
+  default     = ["s3:*", "s3-object-lambda:*"]
+}
+
+variable "s3_arns" {
+  type        = list(string)
+  description = "list of s3 bucket arns which mediaconverter will need access"
+  default     = ["*"]
+}
+
+variable "rules_targets" {
+  type        = list(map(any))
+  description = "event patterns for eventbridge rules"
+  default     = []
 }

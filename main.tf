@@ -14,8 +14,8 @@ module "iam_role" {
 
   policy = [
     {
-      actions   = ["s3:*", "s3-object-lambda:*"]
-      resources = ["*"]
+      actions   = var.s3_iam_actions
+      resources = var.s3_arns
     }
   ]
 
@@ -39,16 +39,7 @@ module "eventbridge" {
   bus_name    = var.bus_name
   create_role = false
 
-  rules = {
-    for rule_key, rule_value in var.rules : rule_key => {
-      name           = rule_value.name
-      description    = rule_value.description
-      event_pattern  = rule_value.event_pattern
-      event_bus_name = rule_value.event_bus_name
-      is_enabled     = rule_value.is_enabled
-
-    }
-  }
+  rules   = local.rules
   targets = local.targets
 }
 
@@ -83,10 +74,4 @@ resource "aws_sqs_queue_policy" "eventbridge_policy" {
   queue_url = "https://sqs.${data.aws_region.current.name}.amazonaws.com/${data.aws_caller_identity.current.account_id}/${module.sqs.queue_name}"
 
   policy = data.aws_iam_policy_document.eventbridge_to_sqs.json
-}
-
-locals {
-  targets = {
-    orders = concat(var.targets, [{ arn = module.sqs.queue_arn, name = "mediaconverter-sqs-target" }])
-  }
 }
