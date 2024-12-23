@@ -33,7 +33,7 @@ output "eventbridge_bus_arn" {
   value       = module.eventbridge.eventbridge_bus_arn
 }
 
-output "mediaconverter_queue_arn" {
+output "mediaconvert_queue_arn" {
   description = "mediaconverter queue arn"
   value       = aws_media_convert_queue.queue.arn
 }
@@ -41,11 +41,6 @@ output "mediaconverter_queue_arn" {
 output "mediaconvert_queue_id" {
   description = "mediaconverter queue id"
   value       = aws_media_convert_queue.queue.id
-}
-
-output "sqs_arn" {
-  description = "sqs arn"
-  value       = module.sqs.queue_arn
 }
 
 output "sqs_id" {

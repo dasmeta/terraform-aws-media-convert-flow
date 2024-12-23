@@ -1,9 +1,8 @@
 module "mediaconvert_queue" {
-  source = "../."
+  source = "../../."
 
   queue_name           = "test-queue"
   iam_role_name_suffix = "test"
-
 
 }
 

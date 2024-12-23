@@ -39,7 +39,7 @@ module "eventbridge" {
   bus_name    = var.bus_name
   create_role = false
 
-  rules   = local.rules
+  rules   = { for rule in local.rules : rule.name => rule }
   targets = local.targets
 }
 

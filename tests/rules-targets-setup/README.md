@@ -1,4 +1,4 @@
-# tests
+# rules-targets-setup
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -11,7 +11,9 @@ No providers.
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_mediaconvert_queue"></a> [mediaconvert\_queue](#module\_mediaconvert\_queue) | ../../. | n/a |
 
 ## Resources
 

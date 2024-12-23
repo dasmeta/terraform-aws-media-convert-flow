@@ -22,11 +22,11 @@ variable "status" {
 
 # }
 
-variable "targets" {
-  type        = list(map(string))
-  description = "Map of targets to be linked to the rule. Currently only sqs targets are supported"
-  default     = []
-}
+# variable "targets" {
+#   type        = list(map(string))
+#   description = "Map of targets to be linked to the rule. Currently only sqs targets are supported"
+#   default     = []
+# }
 
 variable "create_bus" {
   type        = bool

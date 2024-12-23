@@ -9,23 +9,7 @@ module "mediaconverter" {
 
   queue_name = "test-queue"
 
-  rules = {
-    orders = {
-      name           = "test-mediaconvert"
-      description    = "Capture mediaconvert job events"
-      event_bus_name = "default"
-      event_pattern  = jsonencode({ "source" : ["aws.mediaconvert"] })
-      is_enabled = true
-    }
-  }
-  targets = {
-    orders = [
-      {
-        arn  = "arn:aws:sqs:eu-central-1:123456789012:test-queue"
-        name = "sqs-target-test"
-      }
-    ]
-  }
+  rules_targets =
 }
 
 ```
@@ -74,7 +58,6 @@ module "mediaconverter" {
 | <a name="input_s3_arns"></a> [s3\_arns](#input\_s3\_arns) | list of s3 bucket arns which mediaconverter will need access | `list(string)` | <pre>[<br/>  "*"<br/>]</pre> | no |
 | <a name="input_s3_iam_actions"></a> [s3\_iam\_actions](#input\_s3\_iam\_actions) | list of actions to be attached to iam role for mediaconverter | `list(string)` | <pre>[<br/>  "s3:*",<br/>  "s3-object-lambda:*"<br/>]</pre> | no |
 | <a name="input_status"></a> [status](#input\_status) | A status of the queue. Valid values are ACTIVE or RESERVED. | `string` | `"ACTIVE"` | no |
-| <a name="input_targets"></a> [targets](#input\_targets) | Map of targets to be linked to the rule. Currently only sqs targets are supported | `list(map(string))` | `[]` | no |
 
 ## Outputs
 
@@ -87,8 +70,8 @@ module "mediaconverter" {
 | <a name="output_iam_role_arn"></a> [iam\_role\_arn](#output\_iam\_role\_arn) | mediaconverter iam role arn |
 | <a name="output_iam_role_id"></a> [iam\_role\_id](#output\_iam\_role\_id) | mediaconverter iam role id |
 | <a name="output_iam_role_policy"></a> [iam\_role\_policy](#output\_iam\_role\_policy) | role policy |
+| <a name="output_mediaconvert_queue_arn"></a> [mediaconvert\_queue\_arn](#output\_mediaconvert\_queue\_arn) | mediaconverter queue arn |
 | <a name="output_mediaconvert_queue_id"></a> [mediaconvert\_queue\_id](#output\_mediaconvert\_queue\_id) | mediaconverter queue id |
-| <a name="output_mediaconverter_queue_arn"></a> [mediaconverter\_queue\_arn](#output\_mediaconverter\_queue\_arn) | mediaconverter queue arn |
-| <a name="output_sqs_arn"></a> [sqs\_arn](#output\_sqs\_arn) | sqs arn |
+| <a name="output_sqs_arn"></a> [sqs\_arn](#output\_sqs\_arn) | ARN of the created SQS queue |
 | <a name="output_sqs_id"></a> [sqs\_id](#output\_sqs\_id) | sqs id |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
