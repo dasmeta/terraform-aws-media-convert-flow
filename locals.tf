@@ -22,16 +22,17 @@ locals {
     }
   ]
 
-
   targets = length(var.rules_targets) == 0 ? {
     for rule in ["default-role"] : rule => [{
-      name = "${var.queue_name}"
-      arn  = module.sqs.queue_arn
+      name             = "${var.queue_name}"
+      arn              = module.sqs.queue_arn
+      message_group_id = var.sqs_fifo_queue ? "send-orders-to-fifo-sqs" : null
     }]
     } : {
     for rule in var.rules_targets : rule.rule_name => [{
-      name = rule.target_name
-      arn  = contains(keys(rule), "target_arn") ? rule.target_arn : module.sqs.queue_arn
+      name             = rule.target_name
+      arn              = contains(keys(rule), "target_arn") ? rule.target_arn : module.sqs.queue_arn
+      message_group_id = var.sqs_fifo_queue ? "send-orders-to-fifo-sqs" : null
     }]
   }
 }

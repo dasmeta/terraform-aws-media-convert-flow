@@ -44,9 +44,13 @@ module "eventbridge" {
 }
 
 module "sqs" {
-  source          = "dasmeta/modules/aws//modules/sqs"
-  version         = "2.18.2"
-  create_iam_user = false
+  source                     = "dasmeta/modules/aws//modules/sqs"
+  version                    = "2.18.2"
+  create_iam_user            = false
+  visibility_timeout_seconds = var.sqs_visibility_timeout
+  message_retention_seconds  = var.sqs_msg_retention_seconds
+
+  fifo_queue = var.sqs_fifo_queue
 
   name = var.queue_name
 }
@@ -65,7 +69,7 @@ data "aws_iam_policy_document" "eventbridge_to_sqs" {
     condition {
       test     = "ArnEquals"
       variable = "aws:SourceArn"
-      values   = [module.eventbridge.eventbridge_bus_arn]
+      values   = [for key, value in module.eventbridge.eventbridge_rule_arns : value]
     }
   }
 }
