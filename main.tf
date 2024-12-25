@@ -65,7 +65,7 @@ data "aws_iam_policy_document" "eventbridge_to_sqs" {
     condition {
       test     = "ArnEquals"
       variable = "aws:SourceArn"
-      values   = [module.eventbridge.eventbridge_bus_arn]
+      values   = [for key, value in module.eventbridge.eventbridge_rule_arns : value]
     }
   }
 }
