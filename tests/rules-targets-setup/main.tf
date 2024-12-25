@@ -1,7 +1,8 @@
 module "mediaconvert_queue" {
   source = "../../."
 
-  queue_name = "test-queue"
+  queue_name     = "test-queue"
+  sqs_fifo_queue = true
 
   rules_targets = [
     {
@@ -21,7 +22,6 @@ module "mediaconvert_queue" {
       EOF
     }
   ]
-
 }
 
 provider "aws" {

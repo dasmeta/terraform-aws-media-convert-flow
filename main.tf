@@ -44,9 +44,13 @@ module "eventbridge" {
 }
 
 module "sqs" {
-  source          = "dasmeta/modules/aws//modules/sqs"
-  version         = "2.18.2"
-  create_iam_user = false
+  source                     = "dasmeta/modules/aws//modules/sqs"
+  version                    = "2.18.2"
+  create_iam_user            = false
+  visibility_timeout_seconds = var.sqs_visibility_timeout
+  message_retention_seconds  = var.sqs_msg_retention_seconds
+
+  fifo_queue = var.sqs_fifo_queue
 
   name = var.queue_name
 }

@@ -45,3 +45,21 @@ variable "rules_targets" {
   description = "event patterns for eventbridge rules"
   default     = []
 }
+
+variable "sqs_fifo_queue" {
+  description = "boolean flag designating a fifo queue"
+  type        = bool
+  default     = false
+}
+
+variable "sqs_visibility_timeout" {
+  description = "The visibility timeout for the queue"
+  type        = number
+  default     = 15
+}
+
+variable "sqs_msg_retention_seconds" {
+  description = "The number of seconds Amazon SQS retains a message."
+  type        = number
+  default     = 432000
+}

@@ -55,6 +55,9 @@ module "mediaconverter" {
 | <a name="input_rules_targets"></a> [rules\_targets](#input\_rules\_targets) | event patterns for eventbridge rules | `list(map(any))` | `[]` | no |
 | <a name="input_s3_arns"></a> [s3\_arns](#input\_s3\_arns) | list of s3 bucket arns which mediaconverter will need access | `list(string)` | <pre>[<br/>  "*"<br/>]</pre> | no |
 | <a name="input_s3_iam_actions"></a> [s3\_iam\_actions](#input\_s3\_iam\_actions) | list of actions to be attached to iam role for mediaconverter | `list(string)` | <pre>[<br/>  "s3:*",<br/>  "s3-object-lambda:*"<br/>]</pre> | no |
+| <a name="input_sqs_fifo_queue"></a> [sqs\_fifo\_queue](#input\_sqs\_fifo\_queue) | boolean flag designating a fifo queue | `bool` | `false` | no |
+| <a name="input_sqs_msg_retention_seconds"></a> [sqs\_msg\_retention\_seconds](#input\_sqs\_msg\_retention\_seconds) | The number of seconds Amazon SQS retains a message. | `number` | `432000` | no |
+| <a name="input_sqs_visibility_timeout"></a> [sqs\_visibility\_timeout](#input\_sqs\_visibility\_timeout) | The visibility timeout for the queue | `number` | `15` | no |
 | <a name="input_status"></a> [status](#input\_status) | A status of the queue. Valid values are ACTIVE or RESERVED. | `string` | `"ACTIVE"` | no |
 
 ## Outputs
